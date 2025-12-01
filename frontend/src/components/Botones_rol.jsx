@@ -30,7 +30,7 @@ export default function BotonesRol() {
       localStorage.setItem("usuario", JSON.stringify(data.user));
       localStorage.removeItem("userId");
       setUsuario(data.user);
-
+      setToken(data.token);
       // Redirigir al Login
       showToast("Rol asignado correctamente. Vuelva a iniciar sesión.");
       navigate("/login");
