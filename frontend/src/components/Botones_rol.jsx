@@ -32,8 +32,8 @@ export default function BotonesRol() {
       setUsuario(data.user);
       setToken(data.token);
       // Redirigir al Login
-      showToast("Rol asignado correctamente. Vuelva a iniciar sesión.");
-      navigate("/login");
+      showToast("Rol asignado correctamente.");
+      navigate("/");
 
     } catch (error) {
       console.error("Error al asignar el rol:", error);
