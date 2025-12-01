@@ -6,6 +6,7 @@ import "../assets/css/botones-rol.css";
 export default function BotonesRol() {
   const navigate = useNavigate();
   const { setUsuario } = useAuth();
+  const [token, setToken] = useState(() => localStorage.getItem("token") || null);
 
   const handleRolSeleccionado = async (idRol) => {
     try {
