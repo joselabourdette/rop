@@ -83,11 +83,10 @@ export default function RegisterLogin() {
     e.preventDefault();
 
     if (!loginUsuario || !loginContrasena) {
-      showToast("❌ Ingresa usuario y contraseña", "error");
+      showToast("❌ Cuenta no verificada o credenciales incorrectas", "error");
       return;
     }
 
-    try {
     const logueado = await login({
       nombreDeUsuario: loginUsuario,
       contrasena: loginContrasena,
@@ -96,12 +95,8 @@ export default function RegisterLogin() {
     if (logueado) {
       showToast("✅ Login correcto");
     } else {
-      showToast("❌ Cuenta no verificada o credenciales incorrectas", "error");
+      showToast("❌ Usuario o contraseña incorrectos", "error");
     }
-    } catch (err) {
-    console.error("Error en login:", err);
-    showToast("❌ " + err.message, "error");
-  }
   };
 
   return (
