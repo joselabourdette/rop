@@ -5,7 +5,7 @@ import "../assets/css/UserMenu.css";
 
 export default function UserMenu({ open, setOpen }) {
   const ref = useRef(null);
-  const {  usuario, logout } = useAuth();
+  const {  usuario, logout, token } = useAuth();
   const [fotoPerfil, setFotoPerfil] = useState(null);
 
    useEffect(() => {
@@ -16,7 +16,13 @@ export default function UserMenu({ open, setOpen }) {
 
   const fetchImagen = async () => {
     try {
-      const dataUsuario = await apiFetch(`/usuario/${usuario.idUsuario}`);
+      const dataUsuario = await apiFetch(`/usuario/${usuario.idUsuario}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const imgs = dataUsuario.imagenes || [];
       if (imgs.length > 0) {
         setFotoPerfil(`${API_URL}${imgs[0]}`);
