@@ -5,13 +5,13 @@ import "../assets/css/botones-rol.css";
 
 export default function BotonesRol() {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { setUsuario } = useAuth();
 
   const handleRolSeleccionado = async (idRol) => {
     try {
       const idUsuario = localStorage.getItem("userId");
       if (!idUsuario) {
-        showToast("No se encontró el ID del usuario.");
+        alert("No se encontró el ID del usuario.");
         return;
       }
 
@@ -22,27 +22,18 @@ export default function BotonesRol() {
 
 
       if (!data || !data.user) {
-        showToast(data.message || "Error al asignar el rol");
+        alert(data.message || "Error al asignar el rol");
         return;
       }
 
+      // ✅ Guardamos el usuario actualizado
+      localStorage.setItem("usuario", JSON.stringify(data.user));
       localStorage.removeItem("userId");
-      const creds = JSON.parse(localStorage.getItem("loginTemporal"));
-      if (creds) {
-        // Login automático → genera token con el nuevo rol
-        await login(creds);
+      setUsuario(data.user);
 
-        // Elimino credenciales temporales
-        localStorage.removeItem("loginTemporal");
-      }
-
-      // // ✅ Guardamos el usuario actualizado
-      // localStorage.setItem("usuario", JSON.stringify(data.user));
-      // localStorage.removeItem("userId");
-      // setUsuario(data.user);
-
-      // Redirigir al Home
-      navigate("/");
+      // Redirigir al Login
+      showToast("Rol asignado correctamente. Vuelva a iniciar sesión.");
+      navigate("/login");
 
     } catch (error) {
       console.error("Error al asignar el rol:", error);
