@@ -5,13 +5,13 @@ import "../assets/css/botones-rol.css";
 
 export default function BotonesRol() {
   const navigate = useNavigate();
-  const { setUsuario } = useAuth();
+  const { login } = useAuth();
 
   const handleRolSeleccionado = async (idRol) => {
     try {
       const idUsuario = localStorage.getItem("userId");
       if (!idUsuario) {
-        alert("No se encontró el ID del usuario.");
+        showToast("No se encontró el ID del usuario.");
         return;
       }
 
@@ -22,14 +22,24 @@ export default function BotonesRol() {
 
 
       if (!data || !data.user) {
-        alert(data.message || "Error al asignar el rol");
+        showToast(data.message || "Error al asignar el rol");
         return;
       }
 
-      // ✅ Guardamos el usuario actualizado
-      localStorage.setItem("usuario", JSON.stringify(data.user));
       localStorage.removeItem("userId");
-      setUsuario(data.user);
+      const creds = JSON.parse(localStorage.getItem("loginTemporal"));
+      if (creds) {
+        // Login automático → genera token con el nuevo rol
+        await login(creds);
+
+        // Elimino credenciales temporales
+        localStorage.removeItem("loginTemporal");
+      }
+
+      // // ✅ Guardamos el usuario actualizado
+      // localStorage.setItem("usuario", JSON.stringify(data.user));
+      // localStorage.removeItem("userId");
+      // setUsuario(data.user);
 
       // Redirigir al Home
       navigate("/");

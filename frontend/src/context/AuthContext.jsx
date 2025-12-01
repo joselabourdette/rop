@@ -41,6 +41,12 @@ export const AuthProvider = ({ children }) => {
 
       // Caso especial: si no tiene rol
       if (data.needsRoleSelection) {
+        localStorage.setItem("loginTemporal", 
+        JSON.stringify({
+          nombreDeUsuario,
+          contrasena,
+        })
+      );
         localStorage.setItem("userId", data.userId);
         navigate("/botones-rol");
         return true;

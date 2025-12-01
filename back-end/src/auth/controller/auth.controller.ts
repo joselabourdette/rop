@@ -48,13 +48,10 @@ export class AuthController {
 
     // Si no tiene rol → debe elegir
     if (!usuario.rol) {
-      const token = this.authService.generateToken(usuario);
       return {
         message: 'Debes seleccionar un rol para continuar.',
         needsRoleSelection: true,
         userId: usuario.idUsuario,
-        token,
-        user: usuario,
       };
     }
 
